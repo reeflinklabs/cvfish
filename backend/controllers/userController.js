@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import UserAnalytics from '../models/userAnalyticsModel.js';
 
 const createToken = (_id) =>
   jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' });
@@ -20,9 +21,9 @@ export const signupUser = async (req, res) => {
     );
 
     // Initialise user data
-    const userData = new UserData({
-      user: user._id,
-      firstSignedUp: new Date(),
+    const userData = new UserAnalytics({
+      userId: user._id,
+      dateSignedUp: new Date(),
     });
 
     await userData.save();
@@ -47,10 +48,10 @@ export const loginUser = async (req, res) => {
     const user = await User.login(email.toLowerCase(), password);
 
     // Update user data
-    const userData = await UserData.findOne({ user: user._id });
+    const userData = await UserAnalytics.findOne({ userId: user._id });
     if (userData) {
-      userData.lastLogin = new Date();
-      userData.numberOfLogins += 1;
+      userData.lastLoggedIn = new Date();
+      userData.noLogins += 1;
       await userData.save();
     }
 
