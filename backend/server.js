@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import userRoutes from './routes/userRoutes.js';
+import jobRoutes from './routes/jobRoutes.js';
+import noteRoutes from './routes/noteRoutes.js';
 import './jobs/cronJobs.js';
 
 dotenv.config();
@@ -21,7 +23,9 @@ app.use(
 
 app.use(express.json());
 
-app.use('/v1/users', userRoutes);
+app.use('/v1', userRoutes);
+app.use('/v1', jobRoutes);
+app.use('/v1', noteRoutes);
 
 const startServer = async () => {
   try {

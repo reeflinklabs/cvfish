@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 
-import userAnalytics from './userAnalyticsModel';
-import AppStats from './appStatsModel';
+import userAnalytics from './userAnalyticsModel.js';
+import AppStats from './appStatsModel.js';
 
 const { Schema } = mongoose;
 
