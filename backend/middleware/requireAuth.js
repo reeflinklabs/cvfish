@@ -13,12 +13,14 @@ const requireAuth = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id);
+    // Fetch the user and exclude the password field
+    const user = await User.findById(decoded._id).select('-password');
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Attach the user object to the req object
     req.user = user;
     next();
   } catch (error) {

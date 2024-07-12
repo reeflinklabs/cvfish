@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
 import noteRoutes from './routes/noteRoutes.js';
+import cvRoutes from './routes/cvRoutes.js';
 import './jobs/cronJobs.js';
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use('/v1', userRoutes);
 app.use('/v1', jobRoutes);
 app.use('/v1', noteRoutes);
+app.use('/v1', cvRoutes);
 
 const startServer = async () => {
   try {
