@@ -21,7 +21,7 @@ export const createJob = async (req, res) => {
     });
 
     // Update user analytics
-    await UserAnalytics.recordApplication(userId);
+    await UserAnalytics.recordApplication(userId, status);
 
     // Update application stats in AppStats
     const appStats = await AppStats.findOne();
@@ -46,10 +46,23 @@ export const updateJob = async (req, res) => {
   }
 
   try {
-    const updatedJob = await Job.findByIdAndUpdate(id, updates, { new: true });
-    if (!updatedJob) {
+    const job = await Job.findById(id);
+    if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
+
+    const oldStatus = job.status;
+    const updatedJob = await Job.findByIdAndUpdate(id, updates, { new: true });
+
+    // Update user analytics if status changed
+    if (updates.status && updates.status !== oldStatus) {
+      await UserAnalytics.updateApplicationStatus(
+        job.userId,
+        oldStatus,
+        updates.status
+      );
+    }
+
     res.status(200).json(updatedJob);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -65,10 +78,16 @@ export const deleteJob = async (req, res) => {
   }
 
   try {
-    const deletedJob = await Job.findByIdAndDelete(id);
-    if (!deletedJob) {
+    const job = await Job.findById(id);
+    if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
+
+    const deletedJob = await Job.findByIdAndDelete(id);
+
+    // Update user analytics
+    await UserAnalytics.deleteApplication(deletedJob.userId, deletedJob.status);
+
     res.status(200).json({ message: 'Job deleted successfully' });
   } catch (error) {
     res.status(400).json({ message: error.message });
