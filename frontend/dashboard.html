@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CVFish</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/daisyui/dist/full.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@1000&family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="output.css" />
+    <style>
+      .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px; /* Adjust the max-width as needed */
+      }
+      table {
+        table-layout: fixed; /* Makes table columns fixed-width */
+        width: 100%;
+      }
+      th,
+      td {
+        white-space: nowrap; /* Prevents text from wrapping */
+        overflow: hidden; /* Ensures that overflow is hidden */
+        text-overflow: ellipsis; /* Truncates text with ellipsis */
+      }
+      .no-truncate {
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+      }
+    </style>
+  </head>
+  <body class="font-body bg-base-200 min-h-screen">
+    <header class="bg-primary text-white p-4">
+      <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-header">
+          <a href="dashboard.html">CVFish</a>
+        </h1>
+        <button id="logoutButton" class="btn">Logout</button>
+      </div>
+    </header>
+    <main class="flex flex-col items-center p-4">
+      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-center">
+        <h1 class="text-5xl font-header mb-4">Dashboard</h1>
+        <div class="flex justify-end mb-4 gap-4">
+          <button
+            class="btn btn-primary"
+            onclick="window.location.href='newjob.html'"
+          >
+            Add New Job
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="jobTableBody">
+              <!-- Job rows will be inserted here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      function getStatusBadge(status) {
+        switch (status) {
+          case "submitted cv":
+            return '<span class="badge badge-outline">Submitted CV</span>';
+          case "submitted assessment":
+            return '<span class="badge badge-outline badge-info">Submitted Assessment</span>';
+          case "submitted interview":
+            return '<span class="badge badge-outline badge-warning">Submitted Interview</span>';
+          case "rejected at cv":
+          case "rejected at assessment":
+          case "rejected at interview":
+          case "rejected":
+            return '<span class="badge badge-outline badge-error">Rejected</span>';
+          case "offer":
+            return '<span class="badge badge-outline badge-success">Offer</span>';
+          case "incomplete":
+            return '<span class="badge badge-outline">Incomplete</span>';
+          default:
+            return '<span class="badge badge-outline">Unknown</span>';
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const jobs = await makeFetchRequest("/v1/jobs");
+          const jobTableBody = document.getElementById("jobTableBody");
+
+          if (jobs.length === 0) {
+            const noJobsRow = document.createElement("tr");
+            noJobsRow.innerHTML = `<td colspan="3" class="text-center">No jobs available</td>`;
+            jobTableBody.appendChild(noJobsRow);
+          } else {
+            jobs.forEach((job) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                            <td class="truncate" title="${
+                              job.title || "N/A"
+                            }">${job.title || "N/A"}</td>
+                            <td class="no-truncate">${getStatusBadge(
+                              job.status
+                            )}</td>
+                            <td class="no-truncate">${new Date(
+                              job.createdAt
+                            ).toLocaleDateString()}</td>
+                        `;
+              row.style.cursor = "pointer";
+              row.onclick = () =>
+                (window.location.href = `jobdetails.html?jobId=${job._id}`);
+              jobTableBody.appendChild(row);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading dashboard:", error);
+          alert("Error loading dashboard. Please try again.");
+        }
+
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", logoutUser);
+      });
+    </script>
+  </body>
+</html>

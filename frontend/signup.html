@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup - CV Hero</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@1000&family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body
+    class="font-body bg-base-100 flex items-center justify-center h-screen p-4"
+  >
+    <div class="max-w-lg mx-auto text-left p-6 rounded-lg shadow-lg">
+      <h1 class="text-5xl font-header mb-4">Signup</h1>
+      <form id="signupForm">
+        <div class="mb-4 flex gap-4">
+          <div class="w-1/2">
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              id="firstName"
+              placeholder="First Name"
+              required
+            />
+          </div>
+          <div class="w-1/2">
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              id="lastName"
+              placeholder="Last Name"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-4">
+          <input
+            class="input input-bordered w-full"
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <input
+            class="input input-bordered w-full"
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <div class="flex items-center justify-between">
+          <button
+            id="signupButton"
+            class="btn btn-primary w-full"
+            type="submit"
+          >
+            Signup
+          </button>
+          <div
+            id="spinner"
+            class="hidden ml-4 spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+            role="status"
+          >
+            <span class="visually-hidden"></span>
+          </div>
+        </div>
+      </form>
+      <p class="mt-4">
+        Already have an account?
+        <a href="login.html" class="text-blue-600">Login here</a>.
+      </p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
