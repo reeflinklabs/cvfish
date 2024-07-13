@@ -12,6 +12,10 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@1000&family=Poppins:wght@500&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="output.css" />
     <style>
       .truncate {
@@ -43,7 +47,9 @@
         <h1 class="text-2xl font-header">
           <a href="dashboard.html">CVFish</a>
         </h1>
-        <button id="logoutButton" class="btn">Logout</button>
+        <button id="logoutButton" class="btn">
+          <span class="material-icons mr-2">logout</span>Logout
+        </button>
       </div>
     </header>
     <main class="flex flex-col items-center p-4">
@@ -54,16 +60,17 @@
             class="btn btn-primary"
             onclick="window.location.href='newjob.html'"
           >
-            Add New Job
+            <span class="material-icons mr-2">add_circle</span>
+            New Job
           </button>
         </div>
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
               <tr>
-                <th>Job Title</th>
-                <th>Status</th>
-                <th>Date</th>
+                <th>TITLE</th>
+                <th>STATUS</th>
+                <th>DATE</th>
               </tr>
             </thead>
             <tbody id="jobTableBody">
@@ -104,7 +111,7 @@
 
           if (jobs.length === 0) {
             const noJobsRow = document.createElement("tr");
-            noJobsRow.innerHTML = `<td colspan="3" class="text-center">No jobs available</td>`;
+            noJobsRow.innerHTML = `<td colspan="3" class="text-center">No jobs. Add your first one.</td>`;
             jobTableBody.appendChild(noJobsRow);
           } else {
             jobs.forEach((job) => {
