@@ -2,10 +2,19 @@
   "name": "cvfish",
   "version": "1.0.0",
   "scripts": {
-    "heroku-postbuild": "cd backend && npm install"
+    "start": "npm run start:backend",
+    "start:backend": "node backend/server.js",
+    "heroku-postbuild": "npm install --prefix backend && npm run build:frontend",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "nodemon backend/server.js",
+    "dev:frontend": "live-server frontend --port=3000 --watch=./ --open=index.html"
   },
-  "dependencies": {},
+  "dependencies": {
+    "concurrently": "^7.2.1"
+  },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "live-server": "^1.2.1",
+    "nodemon": "^2.0.22"
   }
 }
