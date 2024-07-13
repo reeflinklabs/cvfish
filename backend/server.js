@@ -9,6 +9,7 @@ import noteRoutes from './routes/noteRoutes.js';
 import cvRoutes from './routes/cvRoutes.js';
 import userAnalyticsRoutes from './routes/userAnalyticsRoutes.js';
 import appStatsRoutes from './routes/appStatsRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 import './jobs/cronJobs.js';
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/v1', noteRoutes);
 app.use('/v1', cvRoutes);
 app.use('/v1', userAnalyticsRoutes);
 app.use('/v1', appStatsRoutes);
+app.use('/v1', paymentRoutes);
 
 const startServer = async () => {
   try {
