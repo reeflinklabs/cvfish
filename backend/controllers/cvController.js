@@ -1,4 +1,5 @@
 import CV from '../models/cvModel.js';
+import User from '../models/userModel.js';
 import mongoose from 'mongoose';
 import sendCVEmail from '../services/sendgridService.js';
 
@@ -18,6 +19,12 @@ export const upsertCV = async (req, res) => {
   const userEmail = req.user.email;
 
   try {
+    // Fetch user details
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const updatedCV = await CV.findOneAndUpdate(
       { userId },
       {
@@ -37,6 +44,8 @@ export const upsertCV = async (req, res) => {
     await sendCVEmail(
       {
         userId,
+        firstName: user.firstName, // Add firstName
+        lastName: user.lastName, // Add lastName
         country,
         city,
         phoneNumber,

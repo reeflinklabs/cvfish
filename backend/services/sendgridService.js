@@ -8,6 +8,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendCVEmail = async (cvData, userEmail) => {
   const {
     userId,
+    firstName,
+    lastName,
     country,
     city,
     phoneNumber,
@@ -19,11 +21,11 @@ const sendCVEmail = async (cvData, userEmail) => {
   } = cvData;
 
   const msg = {
-    to: 'marc@reeflinklabs.com', // recipient
-    from: userEmail, // sender's email
-    subject: 'New CV Submission',
+    to: process.env.EMAIL,
+    from: process.env.EMAIL,
+    subject: `CV Submission - ${userEmail}`,
     text: `
-      A new CV has been submitted by user ID: ${userId}.
+      A new CV has been submitted by user ID: ${userId} - ${firstName} ${lastName}.
       
       Country: ${country}
       City: ${city}
