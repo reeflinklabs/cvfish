@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create CV - CVFish</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/daisyui/dist/full.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@1000&family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="font-body bg-base-300 min-h-screen">
+    <header class="bg-primary text-white p-4">
+      <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-header">
+          <a href="dashboard.html">CVFish</a>
+        </h1>
+        <button id="logoutButton" class="btn">
+          <span class="material-icons mr-2">logout</span>Logout
+        </button>
+      </div>
+    </header>
+    <main class="flex flex-col items-start p-4">
+      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-left">
+        <button class="btn btn-circle mb-4">
+          <a href="dashboard.html">
+            <span class="material-icons mr-2">arrow_back</span>
+          </a>
+        </button>
+        <h1 class="text-2xl font-header mb-4">
+          Get a real person to help with your CV in less than 24 hours
+        </h1>
+        <div class="card lg:card-side bg-base-100 shadow-xl mb-4">
+          <figure>
+            <img src="cv.png" alt="CVs" />
+          </figure>
+          <div class="card-body">
+            <p>
+              Hi, I'm Marc 👋 I built CVFish to help students track their job
+              applications. I worked at the University of Liverpool's Career
+              Studio for 2 years. During this time I've reviewed hundreds of CVs
+              and helped hundreds of students get their first internship,
+              gradscheme or even part time job.<br /><br />
+              Now, I can help you make your first CV or polish it up to the
+              industry standard. Just follow the steps below, and I (a real
+              human - not ChatGPT) will get back to you within 24 hours.
+            </p>
+          </div>
+        </div>
+        <div class="card bg-base-100 p-4 shadow-md w-full mb-4">
+          <div class="card-body">
+            <h2 class="card-title">
+              Step 1: Fill out the form below and hit save
+            </h2>
+            <p>
+              This form is meant to collect key details about your CV - but you
+              don't need to have all the information right now. Fill out what
+              you can in natural language and I'll help you put it together
+              afterward.
+            </p>
+            <form id="cvForm">
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="country">Country</label>
+                <input
+                  class="input input-bordered w-full"
+                  type="text"
+                  id="country"
+                  placeholder="Use the country of job application"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="city">City</label>
+                <input
+                  class="input input-bordered w-full"
+                  type="text"
+                  id="city"
+                  placeholder="Use the city of job application"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="phoneNumber"
+                  >Phone Number</label
+                >
+                <input
+                  class="input input-bordered w-full"
+                  type="text"
+                  id="phoneNumber"
+                  placeholder="For contact from recruiters"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="linkedIn"
+                  >LinkedIn Profile</label
+                >
+                <input
+                  class="input input-bordered w-full"
+                  type="text"
+                  id="linkedIn"
+                  placeholder="LinkedIn Profile URL"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="education"
+                  >Education</label
+                >
+                <textarea
+                  class="textarea textarea-bordered w-full"
+                  id="education"
+                  rows="4"
+                  placeholder="Your education experience details. Include relevant dates, grades and skills. Don't worry if you can't think of everything right now."
+                ></textarea>
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="work"
+                  >Work Experience</label
+                >
+                <textarea
+                  class="textarea textarea-bordered w-full"
+                  id="work"
+                  rows="4"
+                  placeholder="Your work experience details. Include relevant dates and skills you learned. Don't worry if you can't think of everything right now."
+                ></textarea>
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="extracurriculars"
+                  >Extracurricular Activities</label
+                >
+                <textarea
+                  class="textarea textarea-bordered w-full"
+                  id="extracurriculars"
+                  rows="4"
+                  placeholder="Your extracurricular experience details. Include relevant dates and skills you learned. Don't worry if you can't think of everything right now."
+                ></textarea>
+              </div>
+              <div class="mb-4">
+                <label class="block text-lg mb-2" for="other"
+                  >Other Information</label
+                >
+                <textarea
+                  class="textarea textarea-bordered w-full"
+                  id="other"
+                  rows="4"
+                  placeholder="Any other information that didn't have a specific field above."
+                ></textarea>
+              </div>
+              <div class="flex items-center justify-between">
+                <button
+                  id="saveCVButton"
+                  class="btn btn-primary flex items-center"
+                  type="submit"
+                >
+                  <span class="loading loading-spinner hidden"></span>
+                  <span class="material-icons mr-2">save</span>Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card bg-base-100 p-4 shadow-md w-full mb-4">
+          <div class="card-body">
+            <h2 class="card-title">Step 2: Pay via Stripe</h2>
+            <p>
+              Use the link below to make a payment through Stripe. You can pay
+              whatever you want 🙂 I'll get back to you within 24 hours. (My
+              email is marc@reeflinklabs.com if you need to get in touch).
+            </p>
+            <a
+              href="https://buy.stripe.com/bIY7sw0qVcrG3ss4gh"
+              class="btn btn-primary"
+              target="_blank"
+            >
+              Pay via Stripe
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer footer-center bg-base-100 text-base-content p-10">
+      <nav class="grid grid-flow-col gap-4">
+        <a class="link link-hover" href="about.html">About</a>
+        <a class="link link-hover" href="cv.html">Create CV</a>
+      </nav>
+      <aside>
+        <p class="text-sm">
+          Made with ❤️ & ☕️ by <a href="https://marcbeep.com"><u>Marc</u></a>
+        </p>
+        <p class="text-xs">
+          © 2024
+          <a href="https://reeflinklabs.com"><u>ReefLink Labs Limited</u></a
+          >, Registered in England and Wales (15783465)<br />
+          49 Jamaica Street, Liverpool, England, L1 0AH
+        </p>
+      </aside>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const cv = await makeFetchRequest("/v1/cv");
+          if (cv) {
+            document.getElementById("country").value = cv.country || "";
+            document.getElementById("city").value = cv.city || "";
+            document.getElementById("phoneNumber").value = cv.phoneNumber || "";
+            document.getElementById("linkedIn").value = cv.linkedIn || "";
+            document.getElementById("education").value = cv.education || "";
+            document.getElementById("work").value = cv.work || "";
+            document.getElementById("extracurriculars").value =
+              cv.extracurriculars || "";
+            document.getElementById("other").value = cv.other || "";
+          }
+        } catch (error) {
+          console.error("Error fetching CV:", error);
+        }
+
+        document
+          .getElementById("cvForm")
+          .addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const country = document.getElementById("country").value;
+            const city = document.getElementById("city").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const linkedIn = document.getElementById("linkedIn").value;
+            const education = document.getElementById("education").value;
+            const work = document.getElementById("work").value;
+            const extracurriculars =
+              document.getElementById("extracurriculars").value;
+            const other = document.getElementById("other").value;
+            const saveCVButton = document.getElementById("saveCVButton");
+            const spinner = saveCVButton.querySelector(".loading");
+
+            saveCVButton.disabled = true;
+            spinner.classList.remove("hidden");
+
+            try {
+              await makeFetchRequest("/v1/cv", {
+                method: "POST",
+                body: JSON.stringify({
+                  country,
+                  city,
+                  phoneNumber,
+                  linkedIn,
+                  education,
+                  work,
+                  extracurriculars,
+                  other,
+                }),
+              });
+
+              alert("CV saved successfully.");
+              window.location.reload();
+            } catch (error) {
+              console.error("Error saving CV:", error);
+              alert("Error saving CV. Please try again.");
+              saveCVButton.disabled = false;
+              spinner.classList.add("hidden");
+            }
+          });
+
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", logoutUser);
+      });
+    </script>
+  </body>
+</html>
