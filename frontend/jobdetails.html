@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Details - CVFish</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/daisyui/dist/full.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@1000&family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="font-body bg-base-300 min-h-screen">
+    <header class="bg-primary text-white p-4">
+      <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-header">
+          <a href="dashboard.html">CVFish</a>
+        </h1>
+        <button id="logoutButton" class="btn">
+          <span class="material-icons mr-2">logout</span>Logout
+        </button>
+      </div>
+    </header>
+    <main class="flex flex-col items-start p-4">
+      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-left">
+        <h1 class="text-5xl font-header mb-4">Job Details</h1>
+        <div class="card bg-base-100 p-4 shadow-md w-full mb-4">
+          <form id="jobDetailsForm">
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="jobTitle">Job Title</label>
+              <input
+                class="input input-bordered w-full"
+                type="text"
+                id="jobTitle"
+                placeholder="Software Engineer"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="company">Company</label>
+              <input
+                class="input input-bordered w-full"
+                type="text"
+                id="company"
+                placeholder="Google"
+                required
+              />
+            </div>
+            <div class="mb-4 flex gap-4">
+              <div class="w-1/2">
+                <label class="block text-lg mb-2" for="jobType">Job Type</label>
+                <select
+                  class="select select-bordered w-full"
+                  id="jobType"
+                  required
+                >
+                  <option value="" disabled selected>Select Type</option>
+                  <option value="internship">Internship</option>
+                  <option value="gradscheme">Grad Scheme</option>
+                  <option value="fulltime">Full-Time</option>
+                  <option value="speculative">Speculative</option>
+                </select>
+              </div>
+              <div class="w-1/2">
+                <label class="block text-lg mb-2" for="status">Status</label>
+                <select
+                  class="select select-bordered w-full"
+                  id="status"
+                  required
+                >
+                  <option value="" disabled selected>Select Status</option>
+                  <option value="incomplete">Incomplete</option>
+                  <option value="submitted cv">Submitted CV</option>
+                  <option value="submitted assessment">
+                    Submitted Assessment
+                  </option>
+                  <option value="submitted interview">
+                    Submitted Interview
+                  </option>
+                  <option value="rejected at cv">Rejected at CV</option>
+                  <option value="rejected at assessment">
+                    Rejected at Assessment
+                  </option>
+                  <option value="rejected at interview">
+                    Rejected at Interview
+                  </option>
+                  <option value="rejected">Rejected</option>
+                  <option value="offer">Offer</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="dateApplied"
+                >Application Deadline</label
+              >
+              <input
+                class="input input-bordered w-full"
+                type="date"
+                id="dateApplied"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="jobDescription"
+                >Job Description</label
+              >
+              <textarea
+                class="textarea textarea-bordered w-full"
+                id="jobDescription"
+                rows="4"
+                placeholder="Describe the job role and responsibilities."
+                required
+              ></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+              <button
+                id="saveJobButton"
+                class="btn btn-primary flex items-center"
+                type="submit"
+              >
+                <span class="loading loading-spinner hidden"></span>
+                <span class="material-icons mr-2">save</span>Save
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card bg-base-100 p-4 shadow-md w-full mb-4">
+          <form id="newNoteForm">
+            <div class="mb-4">
+              <textarea
+                class="textarea textarea-bordered w-full"
+                id="noteContent"
+                rows="2"
+                placeholder="e.g. 'Interviewer asked me about my hobbies.'"
+                required
+              ></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+              <button
+                id="addNoteButton"
+                class="btn btn-primary flex items-center"
+                type="submit"
+              >
+                <span class="loading loading-spinner hidden"></span>
+                <span class="material-icons mr-2">note_add</span>Add Note
+              </button>
+            </div>
+          </form>
+          <div id="notesList" class="mt-4">
+            <!-- Notes will be dynamically inserted here -->
+          </div>
+        </div>
+        <div class="card bg-primary text-primary-content w-full">
+          <div class="card-body">
+            <h2 class="card-title">Tailor Your CV</h2>
+            <p>
+              Tailor your CV specifically for this job application to increase
+              your chances of getting noticed. Get a real person to review your
+              CV in 24 hours.
+            </p>
+            <div class="card-actions justify-end">
+              <button class="btn">Get Started</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get("jobId");
+
+        if (!jobId) {
+          alert("No job ID provided.");
+          window.location.href = "dashboard.html";
+          return;
+        }
+
+        try {
+          const job = await makeFetchRequest(`/v1/jobs/${jobId}`);
+
+          document.getElementById("jobTitle").value = job.title;
+          document.getElementById("company").value = job.company;
+          document.getElementById("jobType").value = job.jobType;
+          document.getElementById("status").value = job.status;
+          document.getElementById("dateApplied").value =
+            job.dateApplied.split("T")[0];
+          document.getElementById("jobDescription").value = job.description;
+
+          const notes = await makeFetchRequest(`/v1/jobs/${jobId}/notes`);
+          const notesList = document.getElementById("notesList");
+          notesList.innerHTML = notes
+            .map(
+              (
+                note
+              ) => `<div class="bg-neutral text-neutral-content p-2 rounded mb-2">
+                          <p>${note.content}</p>
+                          <p class="text-sm text-gray-500">${new Date(
+                            note.createdAt
+                          ).toLocaleDateString()}</p>
+                        </div>`
+            )
+            .join("");
+        } catch (error) {
+          console.error("Error fetching job details or notes:", error);
+          alert("Error fetching job details or notes. Please try again.");
+        }
+
+        document
+          .getElementById("jobDetailsForm")
+          .addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const jobTitle = document.getElementById("jobTitle").value;
+            const jobDescription =
+              document.getElementById("jobDescription").value;
+            const company = document.getElementById("company").value;
+            const jobType = document.getElementById("jobType").value;
+            const status = document.getElementById("status").value;
+            const dateApplied = document.getElementById("dateApplied").value;
+            const saveJobButton = document.getElementById("saveJobButton");
+            const spinner = saveJobButton.querySelector(".loading");
+
+            saveJobButton.disabled = true;
+            spinner.classList.remove("hidden");
+
+            try {
+              await makeFetchRequest(`/v1/jobs/${jobId}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                  title: jobTitle,
+                  description: jobDescription,
+                  company,
+                  jobType,
+                  status,
+                  dateApplied,
+                }),
+              });
+
+              alert("Job details updated successfully.");
+              window.location.reload();
+            } catch (error) {
+              console.error("Error updating job:", error);
+              alert("Error updating job. Please try again.");
+              saveJobButton.disabled = false;
+              spinner.classList.add("hidden");
+            }
+          });
+
+        document
+          .getElementById("newNoteForm")
+          .addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const noteContent = document.getElementById("noteContent").value;
+            const addNoteButton = document.getElementById("addNoteButton");
+            const spinner = addNoteButton.querySelector(".loading");
+
+            addNoteButton.disabled = true;
+            spinner.classList.remove("hidden");
+
+            try {
+              await makeFetchRequest(`/v1/notes`, {
+                method: "POST",
+                body: JSON.stringify({
+                  jobId,
+                  content: noteContent,
+                }),
+              });
+
+              alert("Note added successfully.");
+              window.location.reload();
+            } catch (error) {
+              console.error("Error adding note:", error);
+              alert("Error adding note. Please try again.");
+              addNoteButton.disabled = false;
+              spinner.classList.add("hidden");
+            }
+          });
+
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", logoutUser);
+      });
+    </script>
+  </body>
+</html>

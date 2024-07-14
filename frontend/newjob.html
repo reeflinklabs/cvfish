@@ -18,7 +18,7 @@
     />
     <link rel="stylesheet" href="output.css" />
   </head>
-  <body class="font-body bg-base-100 min-h-screen">
+  <body class="font-body bg-base-300 min-h-screen">
     <header class="bg-primary text-white p-4">
       <div class="max-w-4xl mx-auto flex justify-between items-center">
         <h1 class="text-2xl font-header">
@@ -29,86 +29,115 @@
         </button>
       </div>
     </header>
-    <main class="flex items-center justify-center p-4">
-      <div class="max-w-lg mx-auto text-left">
+    <main class="flex flex-col items-start p-4">
+      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-left">
         <h1 class="text-5xl font-header mb-4">Add New Job</h1>
-        <form id="newJobForm">
-          <div class="mb-4 flex gap-4">
-            <input
-              class="input input-bordered w-1/2"
-              type="text"
-              id="jobTitle"
-              placeholder="Job Title"
-              required
-            />
-            <input
-              class="input input-bordered w-1/2"
-              type="text"
-              id="company"
-              placeholder="Company"
-              required
-            />
-          </div>
-          <div class="mb-4 flex gap-4">
-            <select class="select select-bordered w-1/2" id="jobType" required>
-              <option value="" disabled selected>Job Type</option>
-              <option value="internship">Internship</option>
-              <option value="gradscheme">Grad Scheme</option>
-              <option value="fulltime">Full-Time</option>
-              <option value="speculative">Speculative</option>
-            </select>
-            <select class="select select-bordered w-1/2" id="status" required>
-              <option value="" disabled selected>Status</option>
-              <option value="incomplete">Incomplete</option>
-              <option value="submitted cv">Submitted CV</option>
-              <option value="submitted assessment">Submitted Assessment</option>
-              <option value="submitted interview">Submitted Interview</option>
-              <option value="rejected at cv">Rejected at CV</option>
-              <option value="rejected at assessment">
-                Rejected at Assessment
-              </option>
-              <option value="rejected at interview">
-                Rejected at Interview
-              </option>
-              <option value="rejected">Rejected</option>
-              <option value="offer">Offer</option>
-            </select>
-          </div>
-          <div class="mb-4">
-            <input
-              class="input input-bordered w-full"
-              type="date"
-              id="dateApplied"
-              placeholder="Date Applied"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <textarea
-              class="textarea textarea-bordered w-full"
-              id="jobDescription"
-              rows="4"
-              placeholder="Job Description"
-              required
-            ></textarea>
-          </div>
-          <div class="flex items-center justify-between">
-            <button
-              id="createJobButton"
-              class="btn btn-primary w-full flex items-center"
-              type="submit"
-            >
-              <span class="material-icons mr-2">add</span>Create Job
-            </button>
-            <div
-              id="spinner"
-              class="hidden ml-4 spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
-              role="status"
-            >
-              <span class="visually-hidden">Loading...</span>
+        <div class="card bg-base-100 p-4 shadow-md w-full">
+          <form id="newJobForm">
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="jobTitle">Job Title</label>
+              <input
+                class="input input-bordered w-full"
+                type="text"
+                id="jobTitle"
+                placeholder="Software Engineer"
+                required
+              />
             </div>
-          </div>
-        </form>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="company">Company</label>
+              <input
+                class="input input-bordered w-full"
+                type="text"
+                id="company"
+                placeholder="Google"
+                required
+              />
+            </div>
+            <div class="mb-4 flex gap-4">
+              <div class="w-1/2">
+                <label class="block text-lg mb-2" for="jobType">Job Type</label>
+                <select
+                  class="select select-bordered w-full"
+                  id="jobType"
+                  required
+                >
+                  <option value="" disabled selected>Select Type</option>
+                  <option value="internship">Internship</option>
+                  <option value="gradscheme">Grad Scheme</option>
+                  <option value="fulltime">Full-Time</option>
+                  <option value="speculative">Speculative</option>
+                </select>
+              </div>
+              <div class="w-1/2">
+                <label class="block text-lg mb-2" for="status">Status</label>
+                <select
+                  class="select select-bordered w-full"
+                  id="status"
+                  required
+                >
+                  <option value="" disabled selected>Select Status</option>
+                  <option value="incomplete">Incomplete</option>
+                  <option value="submitted cv">Submitted CV</option>
+                  <option value="submitted assessment">
+                    Submitted Assessment
+                  </option>
+                  <option value="submitted interview">
+                    Submitted Interview
+                  </option>
+                  <option value="rejected at cv">Rejected at CV</option>
+                  <option value="rejected at assessment">
+                    Rejected at Assessment
+                  </option>
+                  <option value="rejected at interview">
+                    Rejected at Interview
+                  </option>
+                  <option value="rejected">Rejected</option>
+                  <option value="offer">Offer</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="dateApplied"
+                >Application Deadline</label
+              >
+              <input
+                class="input input-bordered w-full"
+                type="date"
+                id="dateApplied"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-lg mb-2" for="jobDescription"
+                >Job Description</label
+              >
+              <textarea
+                class="textarea textarea-bordered w-full"
+                id="jobDescription"
+                rows="4"
+                placeholder="Describe the job role and responsibilities."
+                required
+              ></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+              <button
+                id="createJobButton"
+                class="btn btn-primary w-full flex items-center"
+                type="submit"
+              >
+                <span class="material-icons mr-2">add</span>Create Job
+              </button>
+              <div
+                id="spinner"
+                class="hidden ml-4 spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </main>
     <script src="script.js"></script>

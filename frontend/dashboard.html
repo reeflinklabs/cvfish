@@ -41,7 +41,7 @@
       }
     </style>
   </head>
-  <body class="font-body bg-base-200 min-h-screen">
+  <body class="font-body bg-base-300 min-h-screen">
     <header class="bg-primary text-white p-4">
       <div class="max-w-4xl mx-auto flex justify-between items-center">
         <h1 class="text-2xl font-header">
@@ -52,10 +52,27 @@
         </button>
       </div>
     </header>
-    <main class="flex flex-col items-center p-4">
-      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-center">
+    <main class="flex flex-col items-start p-4">
+      <div class="max-w-4xl w-full mx-auto p-8 rounded shadow-md text-left">
         <h1 class="text-5xl font-header mb-4">Dashboard</h1>
-        <div class="flex justify-end mb-4 gap-4">
+        <div class="stats lg:stats-horizontal shadow mb-8">
+          <div class="stat">
+            <div class="stat-title">Applications</div>
+            <div class="stat-value">31</div>
+            <div class="stat-desc">⬆️ 5% (Last Wk)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Offers</div>
+            <div class="stat-value">5</div>
+            <div class="stat-desc">16% Rate</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Rejections</div>
+            <div class="stat-value">10</div>
+            <div class="stat-desc">33% Rate</div>
+          </div>
+        </div>
+        <div class="flex mb-4 gap-4">
           <button
             class="btn btn-primary"
             onclick="window.location.href='newjob.html'"
@@ -64,19 +81,21 @@
             New Job
           </button>
         </div>
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th>JOB</th>
-                <th>STATUS</th>
-                <th>DEADLINE</th>
-              </tr>
-            </thead>
-            <tbody id="jobTableBody">
-              <!-- Job rows will be inserted here dynamically -->
-            </tbody>
-          </table>
+        <div class="card bg-base-100 p-4 shadow-md w-full">
+          <div class="overflow-x-auto">
+            <table class="table w-full">
+              <thead>
+                <tr>
+                  <th>JOB</th>
+                  <th>STATUS</th>
+                  <th>DEADLINE</th>
+                </tr>
+              </thead>
+              <tbody id="jobTableBody">
+                <!-- Job rows will be inserted here dynamically -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>
