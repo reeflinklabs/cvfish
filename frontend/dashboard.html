@@ -115,6 +115,23 @@
         </div>
       </div>
     </main>
+    <footer class="footer footer-center bg-base-100 text-base-content p-10">
+      <nav class="grid grid-flow-col gap-4">
+        <a class="link link-hover">About</a>
+        <a class="link link-hover">Create CV</a>
+      </nav>
+      <aside>
+        <p class="text-sm">
+          Made with ❤️ & ☕️ by <a href="https://marcbeep.com"><u>Marc</u></a>
+        </p>
+        <p class="text-xs">
+          © 2024
+          <a href="https://reeflinklabs.com"><u>ReefLink Labs Limited</u></a
+          >, Registered in England and Wales (15783465)<br />
+          49 Jamaica Street, Liverpool, England, L1 0AH
+        </p>
+      </aside>
+    </footer>
     <script src="script.js"></script>
     <script>
       function getStatusBadge(status) {
@@ -149,19 +166,22 @@
             noJobsRow.innerHTML = `<td colspan="3" class="text-center">No jobs. Add your first one.</td>`;
             jobTableBody.appendChild(noJobsRow);
           } else {
+            // Sort jobs by deadline
+            jobs.sort(
+              (a, b) => new Date(a.dateApplied) - new Date(b.dateApplied)
+            );
+
             jobs.forEach((job) => {
               const row = document.createElement("tr");
               row.innerHTML = `
-                            <td class="truncate" title="${
-                              job.title || "N/A"
-                            }">${job.title || "N/A"}</td>
-                            <td class="no-truncate">${getStatusBadge(
-                              job.status
-                            )}</td>
-                            <td class="no-truncate">${new Date(
-                              job.dateApplied
-                            ).toLocaleDateString()}</td>
-                        `;
+                <td class="truncate" title="${job.title || "N/A"}">${
+                job.title || "N/A"
+              }</td>
+                <td class="no-truncate">${getStatusBadge(job.status)}</td>
+                <td class="no-truncate">${new Date(
+                  job.dateApplied
+                ).toLocaleDateString()}</td>
+              `;
               row.style.cursor = "pointer";
               row.onclick = () =>
                 (window.location.href = `jobdetails.html?jobId=${job._id}`);
