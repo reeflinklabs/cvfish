@@ -22,22 +22,22 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 150px; /* Adjust the max-width as needed */
+        max-width: 150px;
       }
       table {
-        table-layout: auto; /* Changed to auto for better responsiveness */
+        table-layout: auto;
         width: 100%;
       }
       th,
       td {
-        white-space: nowrap; /* Prevents text from wrapping */
-        overflow: hidden; /* Ensures that overflow is hidden */
-        text-overflow: ellipsis; /* Truncates text with ellipsis */
-        padding: 0.5rem 1rem; /* Adjusted padding for better spacing */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0.5rem 1rem;
       }
       .status-badge {
         display: inline-block;
-        min-width: 100px; /* Ensures a minimum width for badges */
+        min-width: 100px;
       }
       .no-truncate {
         white-space: nowrap;
@@ -47,10 +47,10 @@
       @media (max-width: 640px) {
         th,
         td {
-          white-space: normal; /* Allows wrapping on smaller screens */
+          white-space: normal;
         }
         .status-badge {
-          min-width: auto; /* Resets minimum width on smaller screens */
+          min-width: auto;
         }
       }
     </style>
@@ -73,18 +73,17 @@
           <div class="stats lg:stats-horizontal shadow mb-8">
             <div class="stat">
               <div class="stat-title">Applications</div>
-              <div class="stat-value">31</div>
-              <div class="stat-desc">⬆️ 5% (Last Wk)</div>
+              <div class="stat-value" id="totalApplications">0</div>
             </div>
             <div class="stat">
               <div class="stat-title">Offers</div>
-              <div class="stat-value">5</div>
-              <div class="stat-desc">16% Rate</div>
+              <div class="stat-value" id="totalOffers">0</div>
+              <div class="stat-desc" id="offerRate">0% Rate</div>
             </div>
             <div class="stat">
               <div class="stat-title">Rejections</div>
-              <div class="stat-value">10</div>
-              <div class="stat-desc">33% Rate</div>
+              <div class="stat-value" id="totalRejections">0</div>
+              <div class="stat-desc" id="rejectionRate">0% Rate</div>
             </div>
           </div>
         </div>
@@ -107,9 +106,7 @@
                   <th>DEADLINE</th>
                 </tr>
               </thead>
-              <tbody id="jobTableBody">
-                <!-- Job rows will be inserted here dynamically -->
-              </tbody>
+              <tbody id="jobTableBody"></tbody>
             </table>
           </div>
         </div>
@@ -117,8 +114,8 @@
     </main>
     <footer class="footer footer-center bg-base-100 text-base-content p-10">
       <nav class="grid grid-flow-col gap-4">
-        <a class="link link-hover">About</a>
-        <a class="link link-hover">Create CV</a>
+        <a class="link link-hover" href="about.html">About</a>
+        <a class="link link-hover" href="cv.html">Create CV</a>
       </nav>
       <aside>
         <p class="text-sm">
@@ -160,18 +157,42 @@
         try {
           const jobs = await makeFetchRequest("/v1/jobs");
           const jobTableBody = document.getElementById("jobTableBody");
+          const totalApplicationsElement =
+            document.getElementById("totalApplications");
+          const totalOffersElement = document.getElementById("totalOffers");
+          const totalRejectionsElement =
+            document.getElementById("totalRejections");
+          const offerRateElement = document.getElementById("offerRate");
+          const rejectionRateElement = document.getElementById("rejectionRate");
+
+          let totalApplications = 0;
+          let totalOffers = 0;
+          let totalRejections = 0;
 
           if (jobs.length === 0) {
             const noJobsRow = document.createElement("tr");
             noJobsRow.innerHTML = `<td colspan="3" class="text-center">No jobs. Add your first one.</td>`;
             jobTableBody.appendChild(noJobsRow);
           } else {
-            // Sort jobs by deadline
             jobs.sort(
               (a, b) => new Date(a.dateApplied) - new Date(b.dateApplied)
             );
 
             jobs.forEach((job) => {
+              totalApplications++;
+              if (job.status === "offer") {
+                totalOffers++;
+              } else if (
+                [
+                  "rejected at cv",
+                  "rejected at assessment",
+                  "rejected at interview",
+                  "rejected",
+                ].includes(job.status)
+              ) {
+                totalRejections++;
+              }
+
               const row = document.createElement("tr");
               row.innerHTML = `
                 <td class="truncate" title="${job.title || "N/A"}">${
@@ -188,6 +209,21 @@
               jobTableBody.appendChild(row);
             });
           }
+
+          totalApplicationsElement.textContent = totalApplications;
+          totalOffersElement.textContent = totalOffers;
+          totalRejectionsElement.textContent = totalRejections;
+
+          const offerRate = ((totalOffers / totalApplications) * 100).toFixed(
+            2
+          );
+          const rejectionRate = (
+            (totalRejections / totalApplications) *
+            100
+          ).toFixed(2);
+
+          offerRateElement.textContent = `${offerRate}% Rate`;
+          rejectionRateElement.textContent = `${rejectionRate}% Rate`;
         } catch (error) {
           console.error("Error loading dashboard:", error);
           alert("Error loading dashboard. Please try again.");
